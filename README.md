@@ -24,6 +24,7 @@ Neste momento está sendo entregue o segundo microserviço **Agendador de tarefa
 - 🌱 **Spring Boot** (Web, Data JPA, Security, Validation)
 - 🗄️ **MongoDB** (Banco de Dados NoSQL)
 - 🔐 **Spring Security + JWT** (autenticação e autorização)
+- 📡 **OpenFeign** (Comunicação síncrona entre microserviços)
 - 📬 **Spring Mail + Thymeleaf** (Notificações por Email)
 - 📬 **Postman** (testes de requisições HTTP)
 - 🔄 **GitHub Actions** (CI/CD)
