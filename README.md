@@ -14,7 +14,7 @@ Neste momento está sendo entregue o segundo microserviço **Agendador de tarefa
 
 - ✅ Cadastro de Usuário (finalizado)
 - ✅ Agendador de Tarefas (finalizado)
-- ⏳ Notificação por Email (em andamento)
+- ✅ Notificação por Email (em finalizado)
 - ⏳ BFF (Back For Frontend) (em andamento)
 
 
@@ -67,12 +67,12 @@ As rotas disponíveis foram testadas com **Postman**:
 
 **1.** Clone este repositório:
 ```bash
-git clone https://github.com/SEU-USUARIO/usuario.git
+git clone https://github.com/SEU-USUARIO/agendador-tarefas.git
 ```
 
 **2.** Clone este repositório:
 ```bash
-cd usuario
+cd agendador-tarefas
 ```
 **3.** Configure o banco de dados no arquivo **application.properties**.
 
