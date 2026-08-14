@@ -1,83 +1,288 @@
+# 📅 Agendador de Tarefas
 
-# 📝 Agendador de Tarefas - Microsserviços em Java
+Aplicação Back-End para **gerenciamento e agendamento de tarefas**, desenvolvida utilizando **Java 17 e Spring Boot**, com uma arquitetura baseada em **microsserviços**.
 
-Este microserviço é responsável por gerenciar o agendamento de tarefas em um sistema de gestão de tarefas. Ele interage com o microserviço de **Usuário** para validar o token de autenticação e, assim, garantir a segurança da API.
-
-Este projeto é parte de um curso de **Java, Spring Boot e Arquitetura de Microsserviços**, com o objetivo de praticar conceitos de **POO, APIs REST, segurança com JWT, e banco de dados NoSQL (MongoDB)**.
-
-## 📌 Status do Projeto
-
-No momento, o projeto está em desenvolvimento.
-Neste momento está sendo entregue o segundo microserviço **Agendador de tarefas**.
-
-**Microsserviços planejados**:
-
-- ✅ Cadastro de Usuário (finalizado)
-- ✅ Agendador de Tarefas (finalizado)
-- ✅ Notificação por Email (em finalizado)
-- ⏳ BFF (Back For Frontend) (em andamento)
+O projeto foi desenvolvido com o objetivo de aplicar na prática conceitos de desenvolvimento Back-End, arquitetura de microsserviços, comunicação entre serviços, autenticação, persistência de dados, validações, tratamento de exceções e boas práticas de desenvolvimento.
 
 
-## ⚙️ Tecnologias Utilizadas
+## 🏗️ Arquitetura
 
-- ☕ **Java 17**
-- 🌱 **Spring Boot** (Web, Data JPA, Security, Validation)
-- 🗄️ **MongoDB** (Banco de Dados NoSQL)
-- 🔐 **Spring Security + JWT** (autenticação e autorização)
-- 📡 **OpenFeign** (Comunicação síncrona entre microserviços)
-- 📬 **Spring Mail + Thymeleaf** (Notificações por Email)
-- 📬 **Postman** (testes de requisições HTTP)
-- 🔄 **GitHub Actions** (CI/CD)
-- 🛠️ **Gradle** (build e gerenciamento de dependências)
-- 🗂️ **Metodologias Ágeis** (Kanban, Git Flow com branches main, develop e feature)
+A aplicação é dividida em diferentes serviços, cada um responsável por uma parte específica do sistema.
 
-
-## 🚀 Funcionalidades do Microsserviço de Usuário
-
-- **Cadastrar tarefas**: Permite a criação de tarefas, incluindo nome, descrição, data de evento e status.
-- **Buscar tarefas por um determinado período**: Permite consultar as tarefas dentro de um intervalo de datas.
-- **Alterar dados de uma tarefa**: Possibilita a edição dos dados de uma tarefa previamente criada.
-- **Alterar o status da tarefa**: Atualiza o status da tarefa (por exemplo, de **pendente** para **concluída** ou **cancelada**).
-  
-
-
-## 🧪 Testes de API (Usuário)
-
-As rotas disponíveis foram testadas com **Postman**:
-
-- `POST /tarefas` → Criar nova tarefa  
-- `GET /tarefas?inicio=2025-09-01&fim=2025-09-30` → Buscar tarefas por período (data de início e fim)  
-- `PUT /tarefas/{id}` → Atualizar dados de uma tarefa  
-- `PATCH /tarefas/{id}/status` → Alterar o status da tarefa (PENDENTE, NOTIFICADO, CANCELADO)
-
- ## 📂 Estrutura do Projeto (parcial)
- 
- ```shell
- /agendador-tarefas
-├── usuario # Microsserviço de usuários (entregue)
-│ ├── src/main/java  # Código principal
-│ ├── src/test/java  # Testes unitários
-├── agendador        # Microsserviço de tarefas (entregue)
-├── notificacao      # Microsserviço de emails (em desenvolvimento)
-├── bff              # Microsserviço BFF (planejado)
-└── README.md
+```text
+                         ┌──────────────────┐
+                         │     Cliente      │
+                         └────────┬─────────┘
+                                  │
+                                  ▼
+                     ┌────────────────────────┐
+                     │          BFF           │
+                     │   Back For Frontend    │
+                     └───────────┬────────────┘
+                                 │
+                    ┌────────────┴────────────┐
+                    │                         │
+                    ▼                         ▼
+          ┌──────────────────┐      ┌──────────────────┐
+          │  Microsserviço   │      │  Microsserviço   │
+          │     Usuário      │      │    Agendador     │
+          └──────────────────┘      └─────────┬────────┘
+                                              │
+                                              ▼
+                                   ┌──────────────────┐
+                                   │  Microsserviço   │
+                                   │   Notificação    │
+                                   └──────────────────┘
 ```
 
-## ▶️ Como Rodar o Microsserviço de Usuário
+### Microsserviços
 
-**1.** Clone este repositório:
+| Serviço                  | Responsabilidade                                            |
+| ------------------------ | ----------------------------------------------------------- |
+| **Usuario**              | Cadastro, autenticação e gerenciamento de usuários          |
+| **Agendador de Tarefas** | Criação, consulta e gerenciamento das tarefas               |
+| **Notificação**          | Envio de notificações relacionadas às tarefas               |
+| **BFF**                  | Centralização da comunicação entre cliente e microsserviços |
+
+
+
+## 🚀 Tecnologias utilizadas
+
+### Back-End
+
+* Java 17
+* Spring Boot
+* Spring Data
+* Spring Security
+* Spring Validation
+* APIs REST
+
+### Arquitetura e comunicação
+
+* Arquitetura de Microsserviços
+* OpenFeign
+* BFF — Back For Frontend
+* JWT
+
+### Banco de dados
+
+* MongoDB
+* PostgreSQL
+
+### Notificações
+
+* Spring Mail
+* Thymeleaf
+
+### DevOps e ferramentas
+
+* Docker
+* Docker Compose
+* Git
+* GitHub Actions
+* Gradle
+* Postman
+
+# 🔐 Autenticação
+
+A aplicação utiliza **Spring Security** para controle de autenticação e autorização.
+
+O processo de autenticação utiliza **JWT (JSON Web Token)**.
+
+Fluxo simplificado:
+
+```text
+Cliente
+   │
+   │ Credenciais
+   ▼
+Microsserviço de Usuário
+   │
+   │ JWT
+   ▼
+Cliente
+   │
+   │ Requisição + Bearer Token
+   ▼
+Microsserviço protegido
+   │
+   │ Validação do token
+   ▼
+Requisição autorizada
+```
+
+
+# 🔄 Comunicação entre os serviços
+
+A comunicação entre os microsserviços utiliza **OpenFeign** para chamadas HTTP entre os serviços.
+
+O uso do OpenFeign permite encapsular a comunicação entre APIs e facilita a integração entre os diferentes componentes da aplicação.
+
+---
+
+# 🔌 BFF — Back For Frontend
+
+O projeto possui um **BFF (Back For Frontend)** responsável por atuar como uma camada intermediária entre o cliente e os microsserviços.
+
+Essa abordagem permite centralizar determinadas chamadas e evitar que o cliente precise conhecer diretamente todos os serviços existentes na aplicação.
+
+Repositório:
+
+👉 [BFF Agendador de Tarefas](https://github.com/LiaraFreitas/bff-agendador-tarefas)
+
+---
+
+# 👤 Microsserviço de Usuário
+
+Responsável pelo gerenciamento dos usuários e pela autenticação da aplicação.
+
+Principais responsabilidades:
+
+* Cadastro de usuários
+* Autenticação
+* Geração e validação de JWT
+* Persistência de usuários
+* Validação de dados
+* Controle de acesso
+
+Repositório:
+
+👉 [Usuario](https://github.com/LiaraFreitas/usuario)
+
+---
+
+# 📋 Microsserviço de Agendamento
+
+Responsável pelo gerenciamento das tarefas cadastradas na aplicação.
+
+Entre as funcionalidades estão:
+
+* Criação de tarefas
+* Consulta de tarefas
+* Atualização de tarefas
+* Atualização de status
+* Consulta por período
+* Validação do usuário autenticado
+
+Repositório:
+
+👉 [Agendador de Tarefas](https://github.com/LiaraFreitas/agendador-tarefas)
+
+---
+
+# 📧 Microsserviço de Notificação
+
+Responsável pelo envio de notificações relacionadas às tarefas agendadas.
+
+O serviço utiliza recursos do **Spring Mail** para envio de e-mails e **Thymeleaf** para construção dos templates das mensagens.
+
+Repositório:
+
+👉 [Notificação](https://github.com/LiaraFreitas/notificacao)
+
+---
+
+# 🧪 Testes
+
+O projeto possui testes automatizados utilizando as ferramentas do ecossistema Java.
+
+Também foram utilizados testes manuais das APIs durante o desenvolvimento utilizando o **Postman**.
+
+---
+
+# ⚙️ Como executar o projeto
+
+### Pré-requisitos
+
+Antes de executar o projeto, é necessário possuir:
+
+* Java 17
+* Docker
+* Docker Compose
+* Git
+
+## Clonar os repositórios
+
 ```bash
-git clone https://github.com/SEU-USUARIO/agendador-tarefas.git
+git clone https://github.com/LiaraFreitas/usuario.git
+
+git clone https://github.com/LiaraFreitas/agendador-tarefas.git
+
+git clone https://github.com/LiaraFreitas/notificacao.git
+
+git clone https://github.com/LiaraFreitas/bff-agendador-tarefas.git
 ```
 
-**2.** Clone este repositório:
+## Executar a infraestrutura
+
+Dentro do projeto correspondente:
+
 ```bash
-cd agendador-tarefas
+docker compose up -d
 ```
-**3.** Configure o banco de dados no arquivo **application.properties**.
 
-**4.** Utilize o **Postman** para testar as rotas.
+Depois, execute os microsserviços de acordo com suas respectivas configurações.
 
-## 👨‍💻 Autor
+---
 
-Desenvolvido por **Liara Freitas** no curso da Javanauta.
+# 📂 Estrutura do projeto
+
+```text
+Agendador de Tarefas
+│
+├── usuario
+│   └── Microsserviço de Usuário
+│
+├── agendador-tarefas
+│   └── Microsserviço de Agendamento
+│
+├── notificacao
+│   └── Microsserviço de Notificação
+│
+└── bff-agendador-tarefas
+    └── Back For Frontend
+```
+
+---
+
+# 📚 Conceitos praticados
+
+Durante o desenvolvimento do projeto foram praticados conceitos como:
+
+* Arquitetura de microsserviços
+* APIs REST
+* Spring Boot
+* Spring Data
+* Spring Security
+* JWT
+* OpenFeign
+* BFF
+* MongoDB
+* DTOs
+* Validações
+* Tratamento de exceções
+* Testes automatizados
+* Docker
+* Git
+* GitHub Actions
+* Integração entre serviços
+
+---
+
+# 🎯 Objetivo do projeto
+
+O principal objetivo do projeto é consolidar conhecimentos em **desenvolvimento Back-End com Java e Spring Boot**, aplicando conceitos de arquitetura de microsserviços e boas práticas de desenvolvimento em uma aplicação prática.
+
+O projeto continua em evolução e novos recursos podem ser adicionados futuramente.
+
+---
+
+# 👩‍💻 Autora
+
+**Liara Freitas**
+
+Desenvolvedora de Software Júnior com foco em **Back-End, Java e Spring Boot**.
+
+🔗 [GitHub](https://github.com/LiaraFreitas)
+
+🔗 [LinkedIn](https://www.linkedin.com/in/liara-freitas/)
